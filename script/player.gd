@@ -94,13 +94,14 @@ func player_animation():
 		
 func player_attack():
 	if Input	.is_action_just_pressed("attack") and not attack:
+		global.player_current_attack = true
 		velocity = Vector2.ZERO
 		attack = true
 		attack_speed += 1 #atak hızının çarpanı, ileride upgrade alması için
 		$Timer.stop() #burası ek olarak atak speedi arttırmak için.
 		$Timer.wait_time = 4.0 / attack_speed #float yani ondalıklı sayı olmak zorunda. şu anda her atak bir çncekinden daha hızlı oluyor. +1 frame ekleniyor ve animasyon beklemesi düşüuor.
-		print(attack_speed) #terminalde çalıştığını görek için
-		print($Timer.wait_time)#terminalde çalıştığını görek için
+		#print(attack_speed) #terminalde çalıştığını görek için
+		#print($Timer.wait_time)#terminalde çalıştığını görek için
 		$Timer.start()
 		if movement_dir == "left":
 			$AnimatedSprite2D.flip_h = true
@@ -114,6 +115,9 @@ func player_attack():
 		elif movement_dir == "down":
 			$AnimatedSprite2D.flip_h = false
 			$AnimatedSprite2D.play("attack_front")	
+
+
+
 			
 func enemy_attack():
 	if enemy_attack_range and enemy_attack_cooldown:
@@ -181,3 +185,5 @@ func _on_player_hitbox_body_exited(body: Node2D) -> void:
 func _on_attack_cooldown_timeout() -> void:
 	$attack_cooldown.stop()#sürekli loop yapmasın die her enemy atak sonrası top ettik
 	enemy_attack_cooldown = true #timer bitince cool downı yine calıştırdık
+
+#enemy damage yemesi

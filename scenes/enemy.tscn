@@ -92,13 +92,16 @@ radius = 5.0990195
 [sub_resource type="CircleShape2D" id="CircleShape2D_md0e3"]
 radius = 49.365982
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_4ra3w"]
+radius = 19.104973
+
 [node name="enemy" type="CharacterBody2D" unique_id=925796385]
 script = ExtResource("1_md0e3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1316936222]
 sprite_frames = SubResource("SpriteFrames_xwavj")
 animation = &"walk_side"
-frame_progress = 0.49842027
+frame_progress = 0.18547715
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=713909777]
 position = Vector2(0, 3)
@@ -109,5 +112,16 @@ shape = SubResource("CircleShape2D_nenq2")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="detection_area" unique_id=361147621]
 shape = SubResource("CircleShape2D_md0e3")
 
+[node name="enemy_hitbox" type="Area2D" parent="." unique_id=610954128]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox" unique_id=340023308]
+shape = SubResource("CircleShape2D_4ra3w")
+
+[node name="damage_cooldown" type="Timer" parent="." unique_id=1515839109]
+wait_time = 0.8
+
 [connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="detection_area" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_entered"]
+[connection signal="body_exited" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_exited"]
+[connection signal="timeout" from="damage_cooldown" to="." method="_on_damage_cooldown_timeout"]
