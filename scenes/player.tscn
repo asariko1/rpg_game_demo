@@ -436,19 +436,23 @@ drag_right_margin = 0.15
 drag_bottom_margin = 0.15
 
 [node name="player_hitbox" type="Area2D" parent="." unique_id=1770624203]
-modulate = Color(0, 0.78039217, 0.20784314, 0.7607843)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player_hitbox" unique_id=1029468834]
 position = Vector2(-1, -6)
 shape = SubResource("CircleShape2D_g2els")
 
 [node name="HealthBar" type="ProgressBar" parent="." unique_id=648807106]
+modulate = Color(0.11764706, 0.64705884, 0.23137255, 0.7058824)
 offset_left = -7.0
 offset_top = 4.0
 offset_right = 6.0
 offset_bottom = 8.0
 show_percentage = false
 
+[node name="attack_cooldown" type="Timer" parent="." unique_id=1284769519]
+wait_time = 0.5
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="body_entered" from="player_hitbox" to="." method="_on_player_hitbox_body_entered"]
 [connection signal="body_exited" from="player_hitbox" to="." method="_on_player_hitbox_body_exited"]
+[connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]

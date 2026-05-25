@@ -28,6 +28,12 @@ func _process(delta: float) -> void:
 	#current_camera() # aşağıdaki camera ayarını kullanmıyorum
 	
 	
+	if player_health <= 0:
+		player_alive = false
+		player_health = 0
+		print("you died")
+		self.queue_free()
+	
 	
 func player():
 	pass
@@ -111,9 +117,9 @@ func player_attack():
 			
 func enemy_attack():
 	if enemy_attack_range and enemy_attack_cooldown:
-		player_health = player_health - 20
+		player_health = player_health - 10
 		enemy_attack_cooldown = false
-		
+		$attack_cooldown.start()
 
 func update_health():
 	var healthbar = 	$HealthBar	
@@ -170,3 +176,8 @@ func _on_player_hitbox_body_exited(body: Node2D) -> void:
 	#if Input.is_action_pressed("right")	:
 		#velocity.y = 0
 		#velocity.x = speed	
+
+
+func _on_attack_cooldown_timeout() -> void:
+	$attack_cooldown.stop()#sürekli loop yapmasın die her enemy atak sonrası top ettik
+	enemy_attack_cooldown = true #timer bitince cool downı yine calıştırdık
