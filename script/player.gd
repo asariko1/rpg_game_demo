@@ -94,7 +94,7 @@ func player_animation():
 		
 func player_attack():
 	if Input	.is_action_just_pressed("attack") and not attack:
-		global.player_current_attack = true
+		global.player_current_attack = true #dşman bizim vurduğumuzu algılıyor
 		velocity = Vector2.ZERO
 		attack = true
 		attack_speed += 1 #atak hızının çarpanı, ileride upgrade alması için
