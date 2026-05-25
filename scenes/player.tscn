@@ -391,6 +391,9 @@ animations = [{
 radius = 1.9999603
 height = 9.999802
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_g2els"]
+radius = 12.0
+
 [node name="Player" type="CharacterBody2D" unique_id=1276321433]
 script = ExtResource("1_g2els")
 
@@ -432,4 +435,20 @@ drag_top_margin = 0.15
 drag_right_margin = 0.15
 drag_bottom_margin = 0.15
 
+[node name="player_hitbox" type="Area2D" parent="." unique_id=1770624203]
+modulate = Color(0, 0.78039217, 0.20784314, 0.7607843)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player_hitbox" unique_id=1029468834]
+position = Vector2(-1, -6)
+shape = SubResource("CircleShape2D_g2els")
+
+[node name="HealthBar" type="ProgressBar" parent="." unique_id=648807106]
+offset_left = -7.0
+offset_top = 4.0
+offset_right = 6.0
+offset_bottom = 8.0
+show_percentage = false
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="player_hitbox" to="." method="_on_player_hitbox_body_entered"]
+[connection signal="body_exited" from="player_hitbox" to="." method="_on_player_hitbox_body_exited"]

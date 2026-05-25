@@ -8,6 +8,11 @@ var movement_dir = ""
 var attack = false
 var attack_speed = 4
 
+var enemy_attack_range = false
+var enemy_attack_cooldown = true
+var player_health = 100
+var player_alive = true
+
 
 func _ready() -> void:
 	$AnimatedSprite2D.play("idle_front")
@@ -18,7 +23,11 @@ func _process(delta: float) -> void:
 	movement_direction()
 	player_animation()
 	player_attack()
+	enemy_attack()
+	update_health()
 	#current_camera() # aşağıdaki camera ayarını kullanmıyorum
+	
+	
 	
 func player():
 	pass
@@ -100,6 +109,22 @@ func player_attack():
 			$AnimatedSprite2D.flip_h = false
 			$AnimatedSprite2D.play("attack_front")	
 			
+func enemy_attack():
+	if enemy_attack_range and enemy_attack_cooldown:
+		player_health = player_health - 20
+		enemy_attack_cooldown = false
+		
+
+func update_health():
+	var healthbar = 	$HealthBar	
+	healthbar.value = player_health
+	
+	if player_health >= 100:
+		healthbar.visible = false
+	else:	
+		healthbar.visible = true
+
+
 func _on_timer_timeout() -> void:
 	attack = false
 	$AnimatedSprite2D.sprite_frames.set_animation_speed("attack_side", attack_speed) #atak animasyonunu hızlandırmaakları.
@@ -107,6 +132,19 @@ func _on_timer_timeout() -> void:
 	$AnimatedSprite2D.sprite_frames.set_animation_speed("walk_down", attack_speed)	
 			
 			
+
+	
+
+
+func _on_player_hitbox_body_entered(body: Node2D) -> void:
+	if body.has_method("enemy"):
+		enemy_attack_range = true #enemi range girdiğinde damage koyabilecek
+
+
+func _on_player_hitbox_body_exited(body: Node2D) -> void:
+	if body.has_method("enemy"):
+		enemy_attack_range = false 
+
 
 #bu sahnelerde farklı kamera ayarı için
 #func current_camera():
@@ -131,4 +169,4 @@ func _on_timer_timeout() -> void:
 		#velocity.x = - speed	
 	#if Input.is_action_pressed("right")	:
 		#velocity.y = 0
-		#velocity.x = speed		
+		#velocity.x = speed	
