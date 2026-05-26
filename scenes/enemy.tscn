@@ -166,7 +166,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_g0wcc")
 }, {
-"duration": 1.0,
+"duration": 10.0,
 "texture": SubResource("AtlasTexture_s1ycm")
 }],
 "loop": true,
@@ -314,9 +314,8 @@ script = ExtResource("1_md0e3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1316936222]
 sprite_frames = SubResource("SpriteFrames_xwavj")
-animation = &"walk_side"
-frame = 5
-frame_progress = 0.6327087
+animation = &"death"
+frame_progress = 0.3155663
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=713909777]
 position = Vector2(0, 3)
@@ -339,6 +338,9 @@ wait_time = 0.8
 
 [node name="timer_walk" type="Timer" parent="." unique_id=794347576]
 
+[node name="timer_death" type="Timer" parent="." unique_id=855912711]
+wait_time = 1.5
+
 [connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="detection_area" to="." method="_on_detection_area_body_exited"]
 [connection signal="body_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_entered"]
@@ -346,3 +348,4 @@ wait_time = 0.8
 [connection signal="timeout" from="damage_cooldown" to="." method="_on_damage_cooldown_timeout"]
 [connection signal="timeout" from="timer_direction" to="." method="_on_timer_direction_timeout"]
 [connection signal="timeout" from="timer_walk" to="." method="_on_timer_walk_timeout"]
+[connection signal="timeout" from="timer_death" to="." method="_on_timer_death_timeout"]
